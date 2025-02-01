@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mioconfluter/models/DisciplineClone.dart';
+import 'package:mioconfluter/models/DisciplineManager.dart';
+import 'package:mioconfluter/ui/home/DisciplineItemScreen.dart';
+import 'package:mioconfluter/ui/home/widget/DisciplineSectionGrid.dart';
 import 'widget/SimpleAppBar.dart';
 import 'widget/CompetenceSectionGrid.dart';
-import 'package:mioconfluter/models/CompetenceClon.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
 import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
-import 'package:mioconfluter/models/CompetenceClonManager.dart';
-import 'CompetenceItemScreen.dart';
 
-class CompetencesMainScreen extends StatelessWidget {
+class Disciplinemainscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<CompetenceClon> items = CompetenceClonManager().competences;
+    List<DisciplineClone> items = DisciplineManager().disciplines;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -23,19 +24,19 @@ class CompetencesMainScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 25, top: 0, bottom: 20),
               child: Text(
-                "Competencias",
+                "Disciplinas",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
-              child: Competencesectiongrid(
+              child: DisciplineSectionGrid(
                 items: items,
                 onItemSelected: (index) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CompetenceItemScreen(competence: items[index]),
+                      builder: (context) => DisciplineItemScreen(discipline: items[index]),
                     ),
                   );
                 },

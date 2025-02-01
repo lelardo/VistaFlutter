@@ -64,7 +64,8 @@ class _CompetenceItemScreenState extends State<CompetenceItemScreen> {
                   InfoCard(title: 'Fecha de Registro', content: '01/01/2023'),
                   InfoCard(title: 'Formato', content: widget.competence.format),
                   InfoCard(title: 'Descripción', content: widget.competence.description),
-                  InfoCard(title: 'Reglas', content: ''),
+                  Text(" "),
+                  Text('Reglas:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: widget.competence.rules.map((rule) {

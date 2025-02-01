@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mioconfluter/models/CompetenceClon.dart';
+import 'package:mioconfluter/models/DisciplineClone.dart';
 
-class SectionGrid extends StatelessWidget {
-  final List<CompetenceClon> items;
+class DisciplineSectionGrid extends StatelessWidget {
+  final List<DisciplineClone> items;
   final Function(int) onItemSelected;
 
-  const SectionGrid({
+  const DisciplineSectionGrid({
     Key? key,
     required this.items,
     required this.onItemSelected,
