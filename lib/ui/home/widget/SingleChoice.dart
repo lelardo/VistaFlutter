@@ -31,6 +31,16 @@ class SingleChoice extends StatelessWidget {
       onSelectionChanged: (Set<InfoOptions> newSelection) {
         onOptionChanged(newSelection.first);
       },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return Color(0xFFb9ff66).withOpacity(0.4);
+            }
+            return null; // Use the default background color
+          },
+        ),
+      ),
     );
   }
 }

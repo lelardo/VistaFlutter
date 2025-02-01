@@ -10,7 +10,7 @@ class CustomDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFFb9ff66), // Color de la paleta
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15),
@@ -25,44 +25,47 @@ class CustomDrawer extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0), // Ajustar el padding
-              child: Expanded(
-                child: ProfileCard(
-                  name: 'John Doe',
-                  imageUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP5QQKcY4t1-_XAOvt_5Ii9LGJqTDX0B7u5sOZJFeU8QCGJ2jReifGEDftXkScCw-lMm8nmFUYF2QXwMR2KrzTsw',
-                ),
+              child: ProfileCard(
+                name: 'John Doe',
+                imageUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP5QQKcY4t1-_XAOvt_5Ii9LGJqTDX0B7u5sOZJFeU8QCGJ2jReifGEDftXkScCw-lMm8nmFUYF2QXwMR2KrzTsw',
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.home, color: Colors.black),
-            title: Text('Home', style: TextStyle(color: Colors.black)),
-            onTap: () {
-              // Acción al tocar
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.sports_soccer, color: Colors.black),
-            title: Text('Competencias', style: TextStyle(color: Colors.black)),
-            onTap: () {
-              // Acción al tocar
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.calendar_today, color: Colors.black),
-            title: Text('Calendario', style: TextStyle(color: Colors.black)),
-            onTap: () {
-              // Acción al tocar
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings, color: Colors.black),
-            title: Text('Settings', style: TextStyle(color: Colors.black)),
-            onTap: () {
-              // Acción al tocar
-            },
-          ),
+          _buildListTile(context, Icons.home, 'Home'),
+          _buildListTile(context, Icons.sports_soccer, 'Competencias'),
+          _buildListTile(context, Icons.calendar_today, 'Calendario'),
+          _buildListTile(context, Icons.settings, 'Settings'),
         ],
       ),
     );
+  }
+
+  Widget _buildListTile(BuildContext context, IconData icon, String title) {
+    return MouseRegion(
+      onEnter: (_) => _onHover(context, true),
+      onExit: (_) => _onHover(context, false),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).primaryColor.withOpacity(0.5),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: ListTile(
+          leading: Icon(icon, color: Colors.black),
+          title: Text(title, style: TextStyle(color: Colors.black)),
+          onTap: () {
+            // Acción al tocar
+          },
+        ),
+      ),
+    );
+  }
+
+  void _onHover(BuildContext context, bool isHovering) {
+    // Aquí puedes manejar el estado de hover si es necesario
   }
 }

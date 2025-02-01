@@ -28,7 +28,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
+      selectedItemColor: Color(0xff4d623a),
       unselectedItemColor: Colors.black,
       onTap: (index) => _onItemTapped(index, context),
     );

@@ -3,25 +3,20 @@ import 'widget/SimpleAppBar.dart';
 import 'widget/InfoCard.dart';
 import 'widget/CustomDrawer.dart';
 import 'widget/CustomBottomBar.dart';
+import 'package:mioconfluter/models/CompetenceEditionClon.dart';
+
 class EditionItemScreen extends StatelessWidget {
+  final CompetenceEditionClon edition;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  EditionItemScreen({required this.edition});
+
+  String formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> etapas = List.generate(5, (index) {
-      return {
-        'identificativo': 'Fecha ${index + 1}',
-        'inicio': '01/01/2023',
-        'fin': '02/01/2023',
-      };
-    });
-
-    List<Map<String, String>> equipos = List.generate(10, (index) {
-      return {
-        'nombre': 'Equipo ${index + 1}',
-        'logo': 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png',
-      };
-    });
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -34,25 +29,25 @@ class EditionItemScreen extends StatelessWidget {
           children: [
             Text(
               'Título de la Edición',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             SizedBox(height: 16),
             Row(
               children: [
-                Expanded(child: InfoCard(title: 'Fecha de Inicio', content: '01/01/2023')),
+                Expanded(child: InfoCard(title: 'Fecha de Inicio', content: formatDate(edition.planning.fechaInicio))),
                 SizedBox(width: 16),
-                Expanded(child: InfoCard(title: 'Fecha de Fin', content: '31/12/2023')),
+                Expanded(child: InfoCard(title: 'Fecha de Fin', content: formatDate(edition.planning.fechaFin))),
               ],
             ),
             SizedBox(height: 16),
             Text(
               'Etapas',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: etapas.length,
+              itemCount: edition.stages.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -62,11 +57,11 @@ class EditionItemScreen extends StatelessWidget {
                     padding: EdgeInsets.all(16.0),
                     margin: EdgeInsets.symmetric(vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xFFb9ff66),
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Color(0xFFb9ff66).withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 5,
                           offset: Offset(0, 3),
@@ -76,12 +71,12 @@ class EditionItemScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(etapas[index]['identificativo']!),
+                        Text('Etapa ${index + 1}', style: TextStyle(color: Colors.black)),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('Inicio: ${etapas[index]['inicio']}'),
-                            Text('Fin: ${etapas[index]['fin']}'),
+                            Text('Inicio: ${formatDate(edition.stages[index].planning.fechaInicio)}', style: TextStyle(color: Colors.black)),
+                            Text('Fin: ${formatDate(edition.stages[index].planning.fechaFin)}', style: TextStyle(color: Colors.black)),
                           ],
                         ),
                       ],
@@ -93,12 +88,12 @@ class EditionItemScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text(
               'Equipos',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: equipos.length,
+              itemCount: edition.teams.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -108,11 +103,11 @@ class EditionItemScreen extends StatelessWidget {
                     padding: EdgeInsets.all(16.0),
                     margin: EdgeInsets.symmetric(vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xFFb9ff66),
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Color(0xFFb9ff66).withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 5,
                           offset: Offset(0, 3),
@@ -122,12 +117,12 @@ class EditionItemScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Image.network(
-                          equipos[index]['logo']!,
+                          edition.teams[index].logo,
                           width: 50,
                           height: 50,
                         ),
                         SizedBox(width: 16),
-                        Text(equipos[index]['nombre']!),
+                        Text(edition.teams[index].name, style: TextStyle(color: Colors.black)),
                       ],
                     ),
                   ),
