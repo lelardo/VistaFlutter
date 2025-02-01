@@ -4,7 +4,6 @@ import 'package:mioconfluter/models/DisciplineManager.dart';
 import 'package:mioconfluter/ui/home/DisciplineItemScreen.dart';
 import 'package:mioconfluter/ui/home/widget/DisciplineSectionGrid.dart';
 import 'widget/SimpleAppBar.dart';
-import 'widget/CompetenceSectionGrid.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
 import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
 

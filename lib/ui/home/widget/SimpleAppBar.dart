@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mioconfluter/ui/home/widget/CustomButton.dart';
 
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SimpleAppBar({Key? key}) : super(key: key);

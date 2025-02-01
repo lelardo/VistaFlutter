@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mioconfluter/ui/home/HomeScreen.dart';
 
 class CustomBottomBar extends StatefulWidget {
   @override
@@ -11,6 +12,12 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   void _onItemTapped(int index, BuildContext context) {
     if (index == 0) {
       Scaffold.of(context).openDrawer(); // Abre el drawer
+    } else if (index == 1 && ModalRoute.of(context)?.settings.name != HomeScreen.routeName) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false,
+      );
     }
   }
 

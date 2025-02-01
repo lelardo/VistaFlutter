@@ -4,6 +4,7 @@ import 'CompetenceEditionClon.dart';
 import 'PlanningClon.dart';
 import 'StageClon.dart';
 import 'TeamClone.dart';
+import 'SquadClon.dart';
 
 class CompetenceClonManager {
   static final CompetenceClonManager _instance = CompetenceClonManager._internal();
@@ -50,6 +51,14 @@ class CompetenceClonManager {
               name: 'Team ${teamIndex + 1}',
               country: "saraguro",
               logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png',
+              squads: List.generate(2, (squadIndex) {
+                return Squadclon(
+                  footballSeason: PlanningClon(
+                    fechaInicio: DateTime.now().subtract(Duration(days: squadIndex * 365)),
+                    fechaFin: DateTime.now().subtract(Duration(days: (squadIndex * 365) - 30)),
+                  ),
+                );
+              }),
             );
           }),
         );
