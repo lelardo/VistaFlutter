@@ -1,26 +1,48 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mioconfluter/ApiSistem/ApiServiceCompetence.dart';
-import 'package:mioconfluter/models/models.dart';
-import 'package:mioconfluter/ui/home/CompetenceGridScreen.dart';
+import 'package:http/http.dart' as http;
+import 'package:mioconfluter/ui/home/CompetenceItemScreen.dart';
+import 'package:mioconfluter/ui/home/CompetencesMainScreen.dart';
+
 class CompetenceSectionHorizontalScroll extends StatefulWidget {
   final String title;
 
   const CompetenceSectionHorizontalScroll({Key? key, required this.title}) : super(key: key);
 
   @override
-  _CompetenceSectionHorizontalScrollState createState() =>
-      _CompetenceSectionHorizontalScrollState();
+  _CompetenceSectionHorizontalScrollState createState() => _CompetenceSectionHorizontalScrollState();
 }
 
 class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHorizontalScroll> {
-  late Future<List<Competence>> competencesFuture;
+  late Future<List<Map<String, dynamic>>> competencesFuture;
   int? hoveredIndex;
   bool isTitleHovered = false;
 
   @override
   void initState() {
     super.initState();
-    competencesFuture = ApiServiceCompetence().fetchCompetences(); // Usamos el ApiService para obtener las competencias
+    competencesFuture = fetchCompetences();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchCompetences() async {
+    final String baseUrl = 'http://172.23.64.1:8000/api/competences';
+
+    try {
+      final response = await http.get(Uri.parse(baseUrl));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        return data.map<Map<String, dynamic>>((item) => {
+          'id': item['id'],
+          'name': item['name'] ?? 'Sin nombre',
+          'logo': item['logo']?.replaceFirst('http://localhost:8000/', 'http://172.23.64.1:8000/') ?? '',
+        }).toList();
+      } else {
+        throw Exception('Error al cargar las competencias');
+      }
+    } catch (e) {
+      throw Exception('Excepción capturada: $e');
+    }
   }
 
   @override
@@ -36,10 +58,12 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
           onEnter: (_) => setState(() => isTitleHovered = true),
           onExit: (_) => setState(() => isTitleHovered = false),
           child: GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CompetenceGridScreen()),
-            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CompetencesMainScreen()),
+              );
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -67,7 +91,7 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
           ),
         ),
         const SizedBox(height: 8),
-        FutureBuilder<List<Competence>>(
+        FutureBuilder<List<Map<String, dynamic>>>(
           future: competencesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -90,6 +114,16 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
                     onEnter: (_) => setState(() => hoveredIndex = index),
                     onExit: (_) => setState(() => hoveredIndex = null),
                     child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CompetenceItemScreen(
+                              competenceId: competences[index]['id'],
+                            ),
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -103,9 +137,7 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: hoveredIndex == index
-                                        ? primaryColor
-                                        : Colors.black26,
+                                    color: hoveredIndex == index ? primaryColor : Colors.black26,
                                     blurRadius: 5,
                                     offset: const Offset(0, 3),
                                   ),
@@ -113,17 +145,21 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  competences[index].logo,
+                                child: competences[index]['logo'].isNotEmpty
+                                    ? Image.network(
+                                  competences[index]['logo'],
                                   fit: BoxFit.cover,
+                                )
+                                    : Container(
+                                  color: Colors.grey[300],
+                                  child: const Icon(Icons.image_not_supported, size: 50),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              competences[index].name,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                              competences[index]['name'],
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
