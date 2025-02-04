@@ -29,7 +29,7 @@ class _CompetenceSectionHorizontalScrollState extends State<CompetenceSectionHor
 
     try {
       final response = await http.get(Uri.parse(baseUrl));
-
+ 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         return data.map<Map<String, dynamic>>((item) => {

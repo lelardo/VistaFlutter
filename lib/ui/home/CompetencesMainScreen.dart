@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
+import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
 
 class CompetencesMainScreen extends StatefulWidget {
   @override
@@ -41,6 +43,7 @@ class _CompetencesMainScreenState extends State<CompetencesMainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(title: const Text("Competencias")),
+      drawer: CustomDrawer(),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: competencesFuture,
         builder: (context, snapshot) {
@@ -104,6 +107,7 @@ class _CompetencesMainScreenState extends State<CompetencesMainScreen> {
           );
         },
       ),
+      bottomNavigationBar: CustomBottomBar(),
     );
   }
 }
