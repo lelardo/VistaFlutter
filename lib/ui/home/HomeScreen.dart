@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             discipline.DisciplineSectionHorizontalScroll(
               title: 'Disciplinas',
-              disciplines: disciplines,
             ),
             TeamSectionHorizontalScroll(
               title: 'Equipos',
