@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class CompetencesMainScreen extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _CompetencesMainScreenState extends State<CompetencesMainScreen> {
   }
 
   Future<List<Map<String, dynamic>>> fetchCompetences() async {
-    final String baseUrl = 'http://172.23.64.1:8000/api/competences';
+    final String baseUrl = '${ApiUrlProvider.getUrl()}competences';
 
     try {
       final response = await http.get(Uri.parse(baseUrl));
@@ -28,7 +30,7 @@ class _CompetencesMainScreenState extends State<CompetencesMainScreen> {
         List<dynamic> data = json.decode(response.body);
         return data.map<Map<String, dynamic>>((item) => {
           'name': item['name'] ?? 'Sin nombre',
-          'logo': item['logo']?.replaceFirst('http://localhost:8000/', 'http://172.23.64.1:8000/') ?? '',
+          'logo': item['logo'] ?? '',
         }).toList();
       } else {
         throw Exception('Error al cargar las competencias');

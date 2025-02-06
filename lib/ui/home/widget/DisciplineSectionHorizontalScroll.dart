@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mioconfluter/ui/home/DisciplineItemScreen.dart';
 import 'package:mioconfluter/ui/home/DisciplineMainScreen.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class DisciplineSectionHorizontalScroll extends StatefulWidget {
   final String title;
@@ -26,7 +28,7 @@ class _DisciplineSectionHorizontalScrollState extends State<DisciplineSectionHor
   }
 
   Future<void> fetchDisciplines() async {
-    final response = await http.get(Uri.parse('http://172.23.64.1:8000/api/disciplines/'));
+    final  response = await http.get(Uri.parse('${ApiUrlProvider.getUrl()}disciplines/'));
 
     if (response.statusCode == 200) {
       setState(() {

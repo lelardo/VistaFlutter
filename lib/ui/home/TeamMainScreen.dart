@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'widget/SimpleAppBar.dart';
 import 'widget/CustomDrawer.dart';
 import 'widget/CustomBottomBar.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class TeamMainScreen extends StatefulWidget {
   @override
@@ -20,7 +22,7 @@ class _TeamMainScreenState extends State<TeamMainScreen> {
   }
 
   Future<List<dynamic>> fetchTeams() async {
-    final String url = 'http://172.23.64.1:8000/api/teams/';
+    final String url = '${ApiUrlProvider.getUrl()}teams/';
 
     try {
       final response = await http.get(Uri.parse(url));

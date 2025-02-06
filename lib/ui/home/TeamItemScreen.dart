@@ -7,6 +7,8 @@ import 'widget/InfoCard.dart';
 import 'widget/SingleChoice.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
 import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class TeamItemScreen extends StatefulWidget {
   final int teamId; // Recibimos el ID del equipo en lugar del objeto completo.
@@ -30,7 +32,7 @@ class _TeamItemScreenState extends State<TeamItemScreen> {
 
   // Método para hacer la solicitud HTTP y obtener los datos del equipo
   Future<void> fetchTeamData() async {
-    final url = 'http://172.23.64.1:8000/api/teams/${widget.teamId}/'; // Utilizamos el ID para obtener el equipo específico.
+    final url = '${ApiUrlProvider.getUrl()}teams/${widget.teamId}/';// Utilizamos el ID para obtener el equipo específico.
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

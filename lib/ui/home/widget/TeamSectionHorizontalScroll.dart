@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mioconfluter/ui/home/TeamItemScreen.dart';
 import 'dart:convert';
-
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
 import 'package:mioconfluter/ui/home/TeamMainScreen.dart';
 
 class TeamSectionHorizontalScroll extends StatefulWidget {
@@ -28,7 +28,7 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
   }
 
   Future<void> fetchTeams() async {
-    final url = 'http://172.23.64.1:8000/api/teams/';
+    final url = '${ApiUrlProvider.getUrl()}teams/';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

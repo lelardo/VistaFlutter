@@ -5,6 +5,8 @@ import 'package:mioconfluter/ui/home/DisciplineItemScreen.dart';
 import 'widget/SimpleAppBar.dart';
 import 'widget/CustomDrawer.dart';
 import 'widget/CustomBottomBar.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class DisciplineMainScreen extends StatefulWidget {
   @override
@@ -21,7 +23,8 @@ class _DisciplineMainScreenState extends State<DisciplineMainScreen> {
   }
 
   Future<List<dynamic>> fetchDisciplines() async {
-    final String url = 'http://172.23.64.1:8000/api/disciplines/';
+    final String url = '${ApiUrlProvider.getUrl()}disciplines';
+
 
     try {
       final response = await http.get(Uri.parse(url));

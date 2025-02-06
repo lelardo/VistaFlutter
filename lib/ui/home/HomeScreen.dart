@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mioconfluter/ui/home/EditionItemScreen.dart';
 import 'package:mioconfluter/ui/home/widget/HeaderWidget.dart';
-import 'package:mioconfluter/ui/home/widget/SectionHorizontalScroll.dart';
 import 'package:mioconfluter/ui/home/widget/CustomBottomBar.dart';
 import 'package:mioconfluter/ui/home/widget/MainAppBar.dart';
 import 'package:mioconfluter/ui/home/widget/CompetenceSectionHorizontalScroll.dart' as competence;
-import 'package:mioconfluter/models/PlanningClon.dart';
-import 'package:mioconfluter/models/CompetenceEditionClon.dart';
 import 'package:mioconfluter/ui/home/widget/DisciplineSectionHorizontalScroll.dart' as discipline;
-import 'package:mioconfluter/models/DisciplineManager.dart';
 import 'package:mioconfluter/ui/home/widget/TeamSectionHorizontalScroll.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
 
@@ -23,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final disciplines = DisciplineManager().disciplines;
+    //final disciplines = DisciplineManager().disciplines;
 
     return Scaffold(
       appBar: MainAppBar(),

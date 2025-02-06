@@ -5,6 +5,8 @@ import 'widget/InfoCard.dart';
 import 'package:mioconfluter/ui/home/widget/SimpleAppBar.dart';
 import 'package:mioconfluter/ui/home/widget/HeaderWidget.dart';
 import 'package:mioconfluter/ui/home/widget/RuleItem.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
+
 
 class DisciplineItemScreen extends StatefulWidget {
   final int disciplineIndex;
@@ -28,7 +30,8 @@ class _DisciplineItemScreenState extends State<DisciplineItemScreen> {
   Future<void> fetchDisciplineData() async {
     try {
       // Obtener la disciplina
-      final disciplineResponse = await http.get(Uri.parse('http://172.23.64.1:8000/api/disciplines/${widget.disciplineIndex}/'));
+      final disciplineResponse = await http.get(Uri.parse('${ApiUrlProvider.getUrl()}disciplines/${widget.disciplineIndex}/'));
+
       if (disciplineResponse.statusCode == 200) {
         setState(() {
           discipline = json.decode(disciplineResponse.body);
@@ -40,7 +43,7 @@ class _DisciplineItemScreenState extends State<DisciplineItemScreen> {
 
     try {
       // Imprimir la URL para confirmar que el filtro es correcto
-      final url = 'http://172.23.64.1:8000/api/rule-disciplines?discipline=${widget.disciplineIndex}';
+      final url = '${ApiUrlProvider.getUrl()}rule-disciplines?discipline=${widget.disciplineIndex}';
       print('Obteniendo reglas desde: $url');
 
       // Obtener las reglas asociadas

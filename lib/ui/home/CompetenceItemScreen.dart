@@ -8,7 +8,7 @@ import 'widget/InfoCard.dart';
 import 'widget/RuleItem.dart';
 import 'widget/SingleChoice.dart';
 import 'package:mioconfluter/ui/home/widget/CustomDrawer.dart';
-import 'package:mioconfluter/ui/home/EditionItemScreen.dart';
+import 'package:mioconfluter/ui/home/ApiSistem/ApiUrlProvider.dart';
 
 class CompetenceItemScreen extends StatefulWidget {
   final int competenceId;
@@ -31,8 +31,7 @@ class _CompetenceItemScreenState extends State<CompetenceItemScreen> {
   }
 
   Future<Map<String, dynamic>> fetchCompetence(int id) async {
-    final String baseUrl = 'http://172.23.64.1:8000/api/competences/$id/';
-
+    final String baseUrl = '${ApiUrlProvider.getUrl()}competences/$id/';
     try {
       final response = await http.get(Uri.parse(baseUrl));
 
@@ -78,7 +77,7 @@ class _CompetenceItemScreenState extends State<CompetenceItemScreen> {
                   children: [
                     HeaderWidget(
                       title: competence['name'] ?? 'Sin nombre',
-                      imageUrl: competence['logo']?.replaceFirst('http://localhost:8000/', 'http://172.23.64.1:8000/') ?? '',
+                      imageUrl: competence['logo'] ?? '',
                     ),
                     SizedBox(height: 16),
                     ClipRRect(
