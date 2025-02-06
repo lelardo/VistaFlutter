@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mioconfluter/models/TeamClone.dart';
-import 'package:mioconfluter/models/TeamCloneManager.dart';
+import 'package:http/http.dart' as http;
 import 'package:mioconfluter/ui/home/TeamItemScreen.dart';
+import 'dart:convert';
+
 import 'package:mioconfluter/ui/home/TeamMainScreen.dart';
 
 class TeamSectionHorizontalScroll extends StatefulWidget {
@@ -16,11 +17,42 @@ class TeamSectionHorizontalScroll extends StatefulWidget {
 class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScroll> {
   int? hoveredIndex;
   bool isTitleHovered = false;
+  List<dynamic> teams = [];
+  bool isLoading = true;
+  bool hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTeams();
+  }
+
+  Future<void> fetchTeams() async {
+    final url = 'http://172.23.64.1:8000/api/teams/';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        setState(() {
+          teams = json.decode(response.body);
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          hasError = true;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        hasError = true;
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color(0xFFBBFA63);
-    final teams = TeamCloneManager().teams;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +64,7 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TeamMainScreen(teams: teams)),
+                MaterialPageRoute(builder: (context) => TeamMainScreen()),
               );
             },
             child: Padding(
@@ -61,7 +93,11 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
         SizedBox(height: 8),
         SizedBox(
           height: 200,
-          child: ListView.builder(
+          child: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : hasError
+              ? Center(child: Text('Error al cargar equipos'))
+              : ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: teams.length,
             itemBuilder: (context, index) {
@@ -74,7 +110,7 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TeamItemScreen(team: team),
+                        builder: (context) => TeamItemScreen(teamId: index+1),
                       ),
                     );
                   },
@@ -95,7 +131,7 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              team.logo,
+                              team['logo'],
                               height: 120,
                               width: 120,
                               fit: BoxFit.cover,
@@ -109,7 +145,7 @@ class _TeamSectionHorizontalScrollState extends State<TeamSectionHorizontalScrol
                         ),
                         SizedBox(height: 8),
                         Text(
-                          team.name,
+                          team['name'],
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
